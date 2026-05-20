@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { englishToSindarin, sindarinToEnglish } from '../data.js';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faRepeat } from '@fortawesome/free-solid-svg-icons';
 
@@ -25,22 +24,34 @@ const buildFlatMap = (dict) => {
     return map;
 };
 
-const engToSinFlat = buildFlatMap(englishToSindarin);
-const sinToEngFlat = buildFlatMap(sindarinToEnglish);
-
 const ElvishTranslator = () => {
     const [inputPhrase, setInputPhrase] = useState('');
     const [translation, setTranslation] = useState([]);
     const [isEnglishToElvish, setIsEnglishToElvish] = useState(false);
+    const [dicts, setDicts] = useState(null);
+
+    useEffect(() => {
+        import('../data.js').then(({ englishToSindarin, sindarinToEnglish }) => {
+            const engToSin = buildFlatMap(englishToSindarin);
+            const sinToEng = buildFlatMap(sindarinToEnglish);
+            setDicts({
+                engToSin,
+                sinToEng,
+                // pre-sort once so handleTranslate never re-sorts
+                engKeys: Object.keys(engToSin).sort((a, b) => b.split(' ').length - a.split(' ').length),
+                sinKeys: Object.keys(sinToEng).sort((a, b) => b.split(' ').length - a.split(' ').length),
+            });
+        });
+    }, []);
 
     const handleTranslate = () => {
+        if (!dicts) return;
         const words = inputPhrase.toLowerCase().split(' ');
         let translatedWords = [];
         let index = 0;
 
-        const lookupDict = isEnglishToElvish ? engToSinFlat : sinToEngFlat;
-
-        const sortedKeys = Object.keys(lookupDict).sort((a, b) => b.split(' ').length - a.split(' ').length);
+        const lookupDict = isEnglishToElvish ? dicts.engToSin : dicts.sinToEng;
+        const sortedKeys = isEnglishToElvish ? dicts.engKeys : dicts.sinKeys;
 
         while (index < words.length) {
             let matchFound = false;
@@ -111,6 +122,7 @@ const ElvishTranslator = () => {
                     onClick={toggleTranslationDirection}
                     className='w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-300 cursor-pointer swap-btn'
                     title='Swap languages'
+                    aria-label='Swap languages'
                 >
                     <FontAwesomeIcon icon={faRepeat} className='text-sm' />
                 </button>
@@ -127,12 +139,16 @@ const ElvishTranslator = () => {
 
                     {/* Input panel */}
                     <div className='flex flex-col p-5 gap-2'>
-                        <span className='text-[10px] tracking-[0.3em] uppercase panel-label'>
+                        <label
+                            htmlFor='translator-input'
+                            className='text-[10px] tracking-[0.3em] uppercase panel-label'
+                        >
                             {isEnglishToElvish ? 'English' : 'Sindarin'}
-                        </span>
+                        </label>
                         <textarea
+                            id='translator-input'
                             rows={7}
-                            className='flex-1 bg-transparent text-base resize-none outline-none leading-relaxed translator-input'
+                            className='flex-1 bg-transparent text-base resize-none leading-relaxed translator-input'
                             value={inputPhrase}
                             onChange={handleInputChange}
                             onKeyDown={handleKeyPress}
@@ -141,11 +157,15 @@ const ElvishTranslator = () => {
                     </div>
 
                     {/* Output panel */}
-                    <div className='flex flex-col p-5 gap-2 relative output-panel'>
+                    <div
+                        role='region'
+                        aria-label={`${isEnglishToElvish ? 'Sindarin' : 'English'} translation output`}
+                        className='flex flex-col p-5 gap-2 relative output-panel'
+                    >
                         <span className='text-[10px] tracking-[0.3em] uppercase panel-label'>
                             {isEnglishToElvish ? 'Sindarin' : 'English'}
                         </span>
-                        <div className='flex-1 text-base leading-relaxed'>
+                        <div aria-live='polite' aria-atomic='true' className='flex-1 text-base leading-relaxed'>
                             {translation.length > 0 ? (
                                 translation.map((token, i) => (
                                     <span key={i}>
@@ -171,6 +191,7 @@ const ElvishTranslator = () => {
                                 onClick={copyToClipboard}
                                 className='absolute bottom-4 right-4 transition-colors duration-200 cursor-pointer copy-btn'
                                 title='Copy to clipboard'
+                                aria-label='Copy translation to clipboard'
                             >
                                 <FontAwesomeIcon icon={faCopy} />
                             </button>
@@ -183,8 +204,9 @@ const ElvishTranslator = () => {
                     <button
                         onClick={handleTranslate}
                         className='w-full py-3 text-xs tracking-[0.4em] uppercase font-semibold border rounded-xl transition-all duration-300 cursor-pointer translate-btn'
+                        disabled={!dicts}
                     >
-                        Translate
+                        {dicts ? 'Translate' : 'Loading…'}
                     </button>
                 </div>
             </div>
