@@ -104,35 +104,35 @@ const ElvishTranslator = () => {
 
             {/* Direction toggle bar */}
             <div className='flex items-center justify-center gap-6 mb-5'>
-                <span className='text-xs tracking-[0.25em] uppercase text-slate-200'>
+                <span className='text-xs tracking-[0.25em] uppercase lang-label'>
                     {isEnglishToElvish ? 'English' : 'Sindarin'}
                 </span>
                 <button
                     onClick={toggleTranslationDirection}
-                    className='w-9 h-9 rounded-full border border-slate-600/50 bg-slate-900/60 flex items-center justify-center text-slate-400 hover:bg-slate-700/50 hover:border-slate-400/70 hover:text-slate-200 transition-all duration-300 cursor-pointer'
+                    className='w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-300 cursor-pointer swap-btn'
                     title='Swap languages'
                 >
                     <FontAwesomeIcon icon={faRepeat} className='text-sm' />
                 </button>
-                <span className='text-xs tracking-[0.25em] uppercase text-slate-600'>
+                <span className='text-xs tracking-[0.25em] uppercase lang-label-dim'>
                     {isEnglishToElvish ? 'Sindarin' : 'English'}
                 </span>
             </div>
 
             {/* Main card */}
-            <div className='rounded-2xl border border-slate-700/50 overflow-hidden shadow-2xl shadow-black/70 bg-slate-900'>
+            <div className='rounded-2xl border overflow-hidden translator-card'>
 
                 {/* Two panels */}
-                <div className='grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-700/50 min-h-52'>
+                <div className='grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x min-h-52 panels'>
 
                     {/* Input panel */}
                     <div className='flex flex-col p-5 gap-2'>
-                        <span className='text-[10px] tracking-[0.3em] uppercase text-slate-500'>
+                        <span className='text-[10px] tracking-[0.3em] uppercase panel-label'>
                             {isEnglishToElvish ? 'English' : 'Sindarin'}
                         </span>
                         <textarea
                             rows={7}
-                            className='flex-1 bg-transparent text-base text-slate-100 resize-none outline-none placeholder-slate-500 leading-relaxed'
+                            className='flex-1 bg-transparent text-base resize-none outline-none leading-relaxed translator-input'
                             value={inputPhrase}
                             onChange={handleInputChange}
                             onKeyDown={handleKeyPress}
@@ -141,8 +141,8 @@ const ElvishTranslator = () => {
                     </div>
 
                     {/* Output panel */}
-                    <div className='flex flex-col p-5 gap-2 relative bg-slate-950'>
-                        <span className='text-[10px] tracking-[0.3em] uppercase text-slate-500'>
+                    <div className='flex flex-col p-5 gap-2 relative output-panel'>
+                        <span className='text-[10px] tracking-[0.3em] uppercase panel-label'>
                             {isEnglishToElvish ? 'Sindarin' : 'English'}
                         </span>
                         <div className='flex-1 text-base leading-relaxed'>
@@ -151,10 +151,10 @@ const ElvishTranslator = () => {
                                     <span key={i}>
                                         {i > 0 ? ' ' : ''}
                                         {token.found ? (
-                                            <span className='text-slate-100'>{token.text}</span>
+                                            <span className='token-found'>{token.text}</span>
                                         ) : (
                                             <span
-                                                className='text-slate-600 cursor-help'
+                                                className='token-missing cursor-help'
                                                 title='Word not found in dictionary'
                                             >
                                                 {token.text}
@@ -163,13 +163,13 @@ const ElvishTranslator = () => {
                                     </span>
                                 ))
                             ) : (
-                                <span className='text-slate-600'>Translation appears here…</span>
+                                <span className='token-missing'>Translation appears here…</span>
                             )}
                         </div>
                         {translation.length > 0 && (
                             <button
                                 onClick={copyToClipboard}
-                                className='absolute bottom-4 right-4 text-slate-600 hover:text-slate-300 transition-colors duration-200 cursor-pointer'
+                                className='absolute bottom-4 right-4 transition-colors duration-200 cursor-pointer copy-btn'
                                 title='Copy to clipboard'
                             >
                                 <FontAwesomeIcon icon={faCopy} />
@@ -179,10 +179,10 @@ const ElvishTranslator = () => {
                 </div>
 
                 {/* Translate button */}
-                <div className='border-t border-slate-700/50 p-4'>
+                <div className='border-t p-4 translate-bar'>
                     <button
                         onClick={handleTranslate}
-                        className='w-full py-3 text-xs tracking-[0.4em] uppercase font-semibold text-slate-300 bg-slate-800/60 hover:bg-slate-700/80 border border-slate-600/40 hover:border-slate-500/60 rounded-xl transition-all duration-300 cursor-pointer'
+                        className='w-full py-3 text-xs tracking-[0.4em] uppercase font-semibold border rounded-xl transition-all duration-300 cursor-pointer translate-btn'
                     >
                         Translate
                     </button>

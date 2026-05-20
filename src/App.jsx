@@ -6,13 +6,13 @@ function App() {
       <div className='min-h-screen flex flex-col items-center justify-center px-4 py-12'>
         <header className='text-center mb-10'>
           <h1
-            className='text-5xl md:text-6xl font-bold text-amber-200 tracking-widest mb-3'
+            className='text-5xl md:text-6xl font-bold tracking-widest mb-3 app-title'
             style={{ fontFamily: "'Cinzel Decorative', cursive" }}
           >
             Sindarin
           </h1>
           <p
-            className='text-amber-400/60 tracking-[0.35em] uppercase text-xs'
+            className='tracking-[0.35em] uppercase text-xs app-subtitle'
             style={{ fontFamily: "'Cinzel', serif" }}
           >
             Elvish Language Translator
@@ -22,10 +22,10 @@ function App() {
         <ElvishTranslator />
 
         <footer
-          className='mt-10 text-amber-200/25 text-xs tracking-widest'
+          className='mt-10 text-xs tracking-widest app-footer'
           style={{ fontFamily: "'Cinzel', serif" }}
         >
-          I·Phith o Edhellen &nbsp;·&nbsp; Words of the Elves
+          &copy; 2024 Sindaria. All rights reserved.
         </footer>
       </div>
     </main>

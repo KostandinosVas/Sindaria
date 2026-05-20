@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+:root {
+  --c-dominant: #2c2929;
+  --c-secondary: #e2b65d;
+  --c-accent: #b88d00;
+}
+
 body {
   background-image: url("./assets/lotr01.png");
   background-position: center;
@@ -12,7 +18,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  /* background: rgba(0, 0, 0, 0.4); */
+
   z-index: 0;
   pointer-events: none;
 }
@@ -20,4 +26,103 @@ body::before {
 #root {
   position: relative;
   z-index: 1;
+}
+
+/* ── App shell ──────────────────────────────────────────── */
+.app-title {
+  color: var(--c-secondary);
+}
+.app-subtitle {
+  color: white;
+  font-weight: 600;
+}
+.app-footer {
+  color: color-mix(in srgb, var(--c-secondary) 90%, transparent);
+  font-size: 1.7rem;
+}
+
+/* ── Direction toggle ───────────────────────────────────── */
+.lang-label,
+.lang-label-dim {
+  display: inline-block;
+  width: 5.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-right: 2rem;
+}
+.lang-label {
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 0 5px var(--c-secondary);
+}
+.lang-label-dim {
+  color: color-mix(in srgb, var(--c-secondary) 95%, transparent);
+  font-weight: 600;
+}
+
+.swap-btn {
+  background-color: var(--c-dominant);
+  border-color: color-mix(in srgb, var(--c-secondary) 40%, transparent);
+  color: color-mix(in srgb, var(--c-secondary) 60%, transparent);
+}
+.swap-btn:hover {
+  background-color: color-mix(in srgb, var(--c-secondary) 15%, transparent);
+  border-color: color-mix(in srgb, var(--c-secondary) 80%, transparent);
+  color: var(--c-secondary);
+}
+
+/* ── Card ───────────────────────────────────────────────── */
+.translator-card {
+  background-color: var(--c-dominant);
+  border-color: color-mix(in srgb, var(--c-secondary) 30%, transparent);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
+.panels > * + * {
+  border-color: color-mix(in srgb, var(--c-secondary) 20%, transparent);
+}
+
+/* ── Panels ─────────────────────────────────────────────── */
+.panel-label {
+  color: color-mix(in srgb, var(--c-secondary) 60%, transparent);
+}
+
+.translator-input {
+  color: var(--c-secondary);
+}
+.translator-input::placeholder {
+  color: color-mix(in srgb, var(--c-secondary) 35%, transparent);
+}
+
+.output-panel {
+  background-color: #383636;
+}
+
+.token-found {
+  color: var(--c-secondary);
+}
+.token-missing {
+  color: color-mix(in srgb, var(--c-secondary) 30%, transparent);
+}
+
+.copy-btn {
+  color: color-mix(in srgb, var(--c-secondary) 40%, transparent);
+}
+.copy-btn:hover {
+  color: var(--c-accent);
+}
+
+/* ── Translate button ───────────────────────────────────── */
+.translate-bar {
+  border-color: color-mix(in srgb, var(--c-secondary) 20%, transparent);
+}
+
+.translate-btn {
+  color: var(--c-dominant);
+  background-color: var(--c-secondary);
+  border-color: var(--c-secondary);
+}
+.translate-btn:hover {
+  background-color: var(--c-accent);
+  border-color: var(--c-accent);
 }
