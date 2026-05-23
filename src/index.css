@@ -136,3 +136,16 @@ body::before {
   opacity: 0.45;
   cursor: not-allowed;
 }
+
+@media (max-width: 640px) {
+  .lang-label,
+  .lang-label-dim {
+    width: 4.5rem;
+    font-size: 1rem;
+    margin-right: 1rem;
+  }
+
+  .app-title {
+    font-size: 1.5rem;
+  }
+}
