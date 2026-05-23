@@ -135,7 +135,7 @@ const ElvishTranslator = () => {
             <div className='rounded-2xl border overflow-hidden translator-card'>
 
                 {/* Two panels */}
-                <div className='grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x min-h-52 panels'>
+                <div className='grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x md:min-h-52 panels'>
 
                     {/* Input panel */}
                     <div className='flex flex-col p-5 gap-2'>
@@ -147,7 +147,7 @@ const ElvishTranslator = () => {
                         </label>
                         <textarea
                             id='translator-input'
-                            rows={7}
+                            rows={4}
                             className='flex-1 bg-transparent text-base resize-none leading-relaxed translator-input'
                             value={inputPhrase}
                             onChange={handleInputChange}
