@@ -1,16 +1,80 @@
-# React + Vite
+# Sindarin Translator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web app for translating between English and Sindarin — the Elvish language from Tolkien's Middle-earth. Built with React 19 and Vite.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Bidirectional translation** — switch between English → Sindarin and Sindarin → English with a single click
+- **Multi-word phrase matching** — prioritises longer dictionary entries before falling back to individual word lookups
+- **Highlighted output** — translated tokens are visually distinguished from untranslated (unknown) words
+- **Copy to clipboard** — one-click copy of the full translation output
+- **Keyboard shortcut** — press `Enter` to trigger translation
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Layer   | Technology                  |
+| ------- | --------------------------- |
+| UI      | React 19, Tailwind CSS v4   |
+| Build   | Vite                        |
+| Icons   | Font Awesome                |
+| Testing | Jest, React Testing Library |
+| Linting | ESLint                      |
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+- Node.js ≥ 18
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run the development server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Preview the production build
+
+```bash
+npm run preview
+```
+
+## Testing
+
+```bash
+npm test
+```
+
+Tests are located in `src/__tests__/` and cover the translation logic (`data.test.js`) and the main component (`ElvishTranslator.test.jsx`).
+
+## Project Structure
+
+```
+src/
+├── components/
+│   └── ElvishTranslator.jsx   # Main translator component
+├── data.js                    # English ↔ Sindarin dictionaries
+├── App.jsx
+└── main.jsx
+```
+
+## How It Works
+
+The translator flattens the dictionary on load, splitting comma-separated synonym keys into individual entries. When translating, it greedily matches the longest possible phrase first, then falls back to single words. Unrecognised words are passed through unchanged and visually flagged in the output.
+
+## License
+
+MIT
